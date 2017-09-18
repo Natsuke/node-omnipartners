@@ -15,6 +15,7 @@ export default class Partners extends Api {
     1007: { message: 'Invalid request. This code is returned upon data validation failure.' },
     1008: { message: 'Missing required fields' },
     1025: { message: 'Internal Error' },
+    1032: { message: 'Partner_ext_id not found.', statusCode: 404 },
     1036: { message: 'Service input data is Invalid.' }
   }
 
@@ -104,6 +105,20 @@ export default class Partners extends Api {
       partner_ext_id: data.partner_ext_id ? data.partner_ext_id.toString() : null
     }, {
       hashKeys: ['action', 'partner_ext_id', 'type'],
+      retry: true
+    })
+  }
+
+  @doc('http://doc.omnipartners.be/index.php/Retrieve_Partner_Logo_URLs')
+  @filterInput([
+    'partner_ext_id', // (Required) The ext id of the partner.
+  ])
+  getLogoUrls (data) {
+    return this._call('get-partner-logo-urls', {
+      ...data,
+      partner_ext_id: data.partner_ext_id ? data.partner_ext_id.toString() : null
+    }, {
+      hashKeys: ['action', 'partner_ext_id'],
       retry: true
     })
   }

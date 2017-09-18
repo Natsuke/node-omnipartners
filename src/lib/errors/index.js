@@ -1,4 +1,5 @@
 
+import { getStatusText } from 'http-status-codes'
 import Request from '../Request'
 import Response from '../Response'
 
@@ -61,6 +62,8 @@ export class OPStatusError extends BaseError {
       this.message = data.message
     }
     if (data.statusCode) {
+      this.statusCode = data.statusCode
+      this.statusText = data.statusText || getStatusText(data.statusCode)
       this.code = `OP/OPStatusError/${data.statusCode}`
     }
   }
